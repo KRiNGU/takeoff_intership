@@ -19,6 +19,7 @@ const TablePage = () => {
       <button onClick={handleButtonClick}>Клик</button>
       <br />
       <button onClick={handleClickCheck}>Проверка саг</button>
+      <br />
     </>
   );
 };
