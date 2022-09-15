@@ -3,11 +3,7 @@ import { Provider } from 'react-redux';
 import { App } from './App';
 import { store } from './redux/store';
 
-const container = document.getElementById('root');
-// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-const root = createRoot(container!);
-
-root.render(
+createRoot(document.getElementById('root') as HTMLElement).render(
   <Provider store={store}>
     <App />
   </Provider>
