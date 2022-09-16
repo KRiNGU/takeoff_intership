@@ -19,6 +19,7 @@ const TablePage = () => {
   const handleNavigate = useCallback(() => {
     navigate('/home');
   }, [navigate]);
+  console.log(process.env.SERVER_URL);
 
   return (
     <>
