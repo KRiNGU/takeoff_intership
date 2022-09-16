@@ -1,11 +1,14 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import LoginPage from './pages/LoginPage';
 import NotFoundPage from './pages/NotFoundPage';
-import TablePage from './pages/TablePage';
+import './style.css';
 
 export const App = () => (
   <BrowserRouter>
     <Routes>
-      <Route path="/" element={<TablePage />} />
+      <Route path="/" element={<Navigate to="/home" replace />} />
+      <Route path="/home" element={<LoginPage />} />
+      <Route path="/login" element={<LoginPage />} />
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   </BrowserRouter>
