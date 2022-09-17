@@ -1,8 +1,12 @@
-import { User } from '../../models/user';
+import { CreateUserProps, GetUserProps } from '../../api/user';
 import { TypeWithPayload } from '../types';
 
-export interface GetUserSagaProps extends TypeWithPayload {
+export interface CreateUserSagaProps extends TypeWithPayload {
   payload: {
-    user: User;
+    user: CreateUserProps;
   };
+}
+
+export interface GetUserSagaProps extends TypeWithPayload {
+  payload: GetUserProps & { password: string };
 }

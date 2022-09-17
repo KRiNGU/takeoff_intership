@@ -1,17 +1,49 @@
+import { AxiosResponse } from 'axios';
 import { call, put, takeLatest } from 'redux-saga/effects';
 import * as userAPI from '../../api/user';
+import { User } from '../../models/user';
 import { getUser } from './slice';
-import { GetUserSagaProps } from './types';
+import { CreateUserSagaProps, GetUserSagaProps } from './types';
 
-function* createUser({ payload: { user } }: GetUserSagaProps) {
+function* createUserWorker({ payload: { user } }: CreateUserSagaProps) {
   try {
-    console.log(user);
+    const getResponse: AxiosResponse<User[]> = yield call(
+      userAPI.getUserByLogin,
+      {
+        login: user.login,
+      }
+    );
+    const getData: User[] = getResponse.data;
+    if (getData.length !== 0) {
+      throw new Error(`User with login: ${user.login} already exists.`);
+    }
     const { data } = yield call(userAPI.createUser, user);
 
     yield put(getUser(data));
-  } catch (err) {}
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+function* loginWorker({ payload: { login, password } }: GetUserSagaProps) {
+  try {
+    const response: AxiosResponse<User[]> = yield call(userAPI.getUserByLogin, {
+      login,
+    });
+    const data = response.data;
+    if (data.length === 0) {
+      throw new Error(`User with login: ${login} not found.`);
+    }
+    if (data[0].password !== password) {
+      throw new Error(`Incorrect password.`);
+    }
+    yield put(getUser(data[0]));
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 export default function* rootSaga() {
-  yield takeLatest('CREATE_USER', createUser);
+  yield takeLatest('CREATE_USER', createUserWorker);
+  yield takeLatest('GET_USER', loginWorker);
 }

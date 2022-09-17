@@ -5,6 +5,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import CenteredPaper from '../../components/CenteredPaper';
 import FormTextField from '../../components/FormTextField';
+import { useAppDispatch } from '../../redux/hooks';
 import styles from './LoginPage.module.scss';
 
 type Inputs = {
@@ -14,12 +15,15 @@ type Inputs = {
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const { handleSubmit, control } = useForm<Inputs>();
 
   const onSubmit = useCallback<SubmitHandler<Inputs>>(
-    (data) => console.log(data),
-    []
+    (data) => {
+      dispatch({ type: 'GET_USER', payload: data });
+    },
+    [dispatch]
   );
 
   const textFieldStyles: SxProps = {

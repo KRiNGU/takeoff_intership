@@ -2,9 +2,10 @@ import { Button, Container, Link, SxProps } from '@mui/material';
 import { memo, useCallback } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { CreateUserProps } from '../../api/user';
 import CenteredPaper from '../../components/CenteredPaper';
 import FormTextField from '../../components/FormTextField';
-import { User } from '../../models/user';
+import { useAppDispatch } from '../../redux/hooks';
 import styles from './RegisterPage.module.scss';
 
 type Inputs = {
@@ -15,12 +16,14 @@ type Inputs = {
 
 const RegisterPage = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const { handleSubmit, control } = useForm<Inputs>();
 
   const onSubmit = useCallback<SubmitHandler<Inputs>>(
-    (data: User) => console.log(data),
-    []
+    (user: CreateUserProps) =>
+      dispatch({ type: 'CREATE_USER', payload: { user } }),
+    [dispatch]
   );
 
   const textFieldStyles: SxProps = {
@@ -122,7 +125,7 @@ const RegisterPage = () => {
           onClick={handleLoginLinkClick}
           sx={{ marginTop: '20px', cursor: 'pointer' }}
         >
-          Register
+          Login
         </Link>
       </CenteredPaper>
     </Container>

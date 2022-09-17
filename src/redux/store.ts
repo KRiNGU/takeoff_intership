@@ -1,15 +1,19 @@
 import { configureStore } from '@reduxjs/toolkit';
 import createSagaMiddleware from '@redux-saga/core';
-import userState from './user/slice';
+import user, { IUserState } from './user/slice';
 import userSaga from './user/sagas';
 
 const sagaMiddleware = createSagaMiddleware();
 
 export const store = configureStore({
-  reducer: { userState },
+  reducer: { user },
   middleware: [sagaMiddleware],
   devTools: process.env.NODE_ENV !== 'production',
 });
+
+export interface IStore {
+  user: IUserState;
+}
 
 sagaMiddleware.run(userSaga);
 
