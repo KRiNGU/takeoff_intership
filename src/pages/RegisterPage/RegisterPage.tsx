@@ -1,18 +1,18 @@
-import { Button, Link, SxProps } from '@mui/material';
-import Container from '@mui/material/Container';
+import { Button, Container, Link, SxProps } from '@mui/material';
 import { memo, useCallback } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import CenteredPaper from '../../components/CenteredPaper';
 import FormTextField from '../../components/FormTextField';
-import styles from './LoginPage.module.scss';
+import styles from './RegisterPage.module.scss';
 
 type Inputs = {
+  email: string;
   login: string;
   password: string;
 };
 
-const LoginPage = () => {
+const RegisterPage = () => {
   const navigate = useNavigate();
 
   const { handleSubmit, control } = useForm<Inputs>();
@@ -32,8 +32,8 @@ const LoginPage = () => {
     },
   };
 
-  const handleRegisterLinkClick = useCallback(() => {
-    navigate('/register');
+  const handleLoginLinkClick = useCallback(() => {
+    navigate('/login');
   }, [navigate]);
 
   return (
@@ -62,6 +62,21 @@ const LoginPage = () => {
           className={styles.form}
           onSubmit={handleSubmit(onSubmit)}
         >
+          <label htmlFor="email" className={styles.label}>
+            Email:
+          </label>
+          <FormTextField
+            name="email"
+            control={control}
+            variant="outlined"
+            margin="normal"
+            type="text"
+            autoComplete="off"
+            sx={textFieldStyles}
+            id="email"
+            fullWidth
+            required
+          />
           <label htmlFor="login" className={styles.label}>
             Login:
           </label>
@@ -103,7 +118,7 @@ const LoginPage = () => {
         </form>
         <Link
           className={styles.link}
-          onClick={handleRegisterLinkClick}
+          onClick={handleLoginLinkClick}
           sx={{ marginTop: '20px', cursor: 'pointer' }}
         >
           Register
@@ -113,4 +128,4 @@ const LoginPage = () => {
   );
 };
 
-export default memo(LoginPage);
+export default memo(RegisterPage);
