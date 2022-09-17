@@ -4,6 +4,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import CenteredPaper from '../../components/CenteredPaper';
 import FormTextField from '../../components/FormTextField';
+import { User } from '../../models/user';
 import styles from './RegisterPage.module.scss';
 
 type Inputs = {
@@ -18,7 +19,7 @@ const RegisterPage = () => {
   const { handleSubmit, control } = useForm<Inputs>();
 
   const onSubmit = useCallback<SubmitHandler<Inputs>>(
-    (data) => console.log(data),
+    (data: User) => console.log(data),
     []
   );
 

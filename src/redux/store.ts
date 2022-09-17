@@ -1,17 +1,17 @@
 import { configureStore } from '@reduxjs/toolkit';
 import createSagaMiddleware from '@redux-saga/core';
-import state from './slice';
-import rootSaga from './sagas';
+import userState from './user/slice';
+import userSaga from './user/sagas';
 
 const sagaMiddleware = createSagaMiddleware();
 
 export const store = configureStore({
-  reducer: { state },
+  reducer: { userState },
   middleware: [sagaMiddleware],
   devTools: process.env.NODE_ENV !== 'production',
 });
 
-sagaMiddleware.run(rootSaga);
+sagaMiddleware.run(userSaga);
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
