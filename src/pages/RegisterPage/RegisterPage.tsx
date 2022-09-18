@@ -6,6 +6,9 @@ import { CreateUserProps } from '../../api/user';
 import CenteredPaper from '../../components/CenteredPaper';
 import FormTextField from '../../components/FormTextField';
 import { useAppDispatch } from '../../redux/hooks';
+import { emailRules } from '../../validation/email';
+import { loginRules } from '../../validation/login';
+import { passwordRules } from '../../validation/password';
 import styles from './RegisterPage.module.scss';
 
 type Inputs = {
@@ -78,6 +81,9 @@ const RegisterPage = () => {
             autoComplete="off"
             sx={textFieldStyles}
             id="email"
+            controllerProps={{
+              rules: emailRules,
+            }}
             fullWidth
             required
           />
@@ -93,8 +99,10 @@ const RegisterPage = () => {
             autoComplete="off"
             sx={textFieldStyles}
             id="login"
+            controllerProps={{
+              rules: loginRules,
+            }}
             fullWidth
-            required
           />
           <label htmlFor="password" className={styles.label}>
             Password:
@@ -108,6 +116,9 @@ const RegisterPage = () => {
             autoComplete="off"
             sx={textFieldStyles}
             id="password"
+            controllerProps={{
+              rules: passwordRules,
+            }}
             fullWidth
             required
           />

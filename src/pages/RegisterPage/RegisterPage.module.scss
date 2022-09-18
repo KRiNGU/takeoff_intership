@@ -6,6 +6,11 @@
   width: 100%;
 }
 
+.label {
+  align-self: start;
+  margin-left: 5px;
+}
+
 .label:not(:first-child) {
   margin-top: 70px;
 }

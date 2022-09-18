@@ -28,18 +28,33 @@ const FormTextField = <T extends FieldValues, J extends FieldPath<T>>({
     render={({
       field: { onChange, onBlur, value, name, ref },
       fieldState: { error },
-    }) => (
-      <TextField
-        onChange={onChange}
-        onBlur={onBlur}
-        value={value ?? ''}
-        name={name}
-        ref={ref}
-        error={!!error}
-        helperText={error ? error.message : null}
-        {...fieldProps}
-      />
-    )}
+    }) => {
+      return (
+        <>
+          <TextField
+            onChange={onChange}
+            onBlur={onBlur}
+            value={value ?? ''}
+            name={name}
+            ref={ref}
+            error={!!error}
+            {...fieldProps}
+          />
+          {error?.message && (
+            <p
+              style={{
+                color: '#d32f2f',
+                fontSize: '11px',
+                alignSelf: 'start',
+                marginLeft: '5px',
+              }}
+            >
+              {error.message}
+            </p>
+          )}
+        </>
+      );
+    }}
     {...controllerProps}
   />
 );

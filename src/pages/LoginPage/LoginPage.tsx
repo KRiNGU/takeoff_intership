@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import CenteredPaper from '../../components/CenteredPaper';
 import FormTextField from '../../components/FormTextField';
 import { useAppDispatch } from '../../redux/hooks';
+import { loginRules } from '../../validation/login';
+import { passwordRules } from '../../validation/password';
 import styles from './LoginPage.module.scss';
 
 type Inputs = {
@@ -78,6 +80,9 @@ const LoginPage = () => {
             autoComplete="off"
             sx={textFieldStyles}
             id="login"
+            controllerProps={{
+              rules: loginRules,
+            }}
             fullWidth
             required
           />
@@ -93,6 +98,9 @@ const LoginPage = () => {
             autoComplete="off"
             sx={textFieldStyles}
             id="password"
+            controllerProps={{
+              rules: passwordRules,
+            }}
             fullWidth
             required
           />
