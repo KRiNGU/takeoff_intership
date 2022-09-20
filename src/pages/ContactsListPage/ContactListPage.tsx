@@ -15,16 +15,18 @@ import { Contact } from '../../models/contacts';
 import { User } from '../../models/user';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import CreateContactModal from './CreateContactModal';
+import { ICreateContactForm } from './CreateContactModal/CreateContactModal';
 
 export const ContactListPage = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector<User>((state) => state.user);
-  useEffect(() => {
-    dispatch({ type: 'GET_CONTACTS', payload: { ownerId: user.id } });
-  }, [dispatch, user.id]);
   const contactList = useAppSelector<Contact[]>((state) => state.contacts);
   const [isCreateModalOpened, setIsCreateModalOpened] =
     useState<boolean>(false);
+
+  useEffect(() => {
+    dispatch({ type: 'GET_CONTACTS', payload: { ownerId: user.id } });
+  }, [dispatch, user.id]);
 
   const StyledTableCell = styled(TableCell)(() => ({
     borderColor: 'grey',
@@ -55,12 +57,22 @@ export const ContactListPage = () => {
     setIsCreateModalOpened(false);
   }, []);
 
+  const handleCreateNewContact = useCallback(
+    (data: ICreateContactForm) => {
+      dispatch({
+        type: 'CREATE_CONTACT',
+        payload: { contact: { ...data, ownerId: user.id } },
+      });
+    },
+    [dispatch, user.id]
+  );
+
   return (
     <>
       <CreateContactModal
         open={isCreateModalOpened}
         onClose={handleCloseCreateNewContactModal}
-        onSubmit={(data: Contact) => console.log(data)}
+        onSubmit={handleCreateNewContact}
       />
       <Background styles={{ backgroundColor: 'white', padding: '40px' }}>
         <h1 style={{ textAlign: 'center', color: '#303640' }}>

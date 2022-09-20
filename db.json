@@ -16,6 +16,35 @@
       "lastName": "Smith",
       "telegram": "@j0hn_sm1th",
       "country": "Great Britain"
+    },
+    {
+      "name": "Alex",
+      "lastName": "Hi",
+      "email": "contact2@mail.com",
+      "ownerId": 1,
+      "id": 2
+    },
+    {
+      "name": "Alexandr",
+      "lastName": "Lobashov",
+      "email": "alex.lob@mail.com",
+      "patronymic": "Maximovich",
+      "telegram": "@l3gi0n",
+      "phoneNumber": "89107378192",
+      "country": "Russia",
+      "ownerId": 1,
+      "id": 3
+    },
+    {
+      "email": "contact3@mail.com",
+      "name": "contact",
+      "lastName": "third",
+      "patronymic": "",
+      "telegram": "",
+      "phoneNumber": "83333333333",
+      "country": "33333",
+      "ownerId": 1,
+      "id": 4
     }
   ]
 }

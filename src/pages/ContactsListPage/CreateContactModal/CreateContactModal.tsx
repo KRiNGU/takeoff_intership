@@ -1,33 +1,53 @@
 import { Button, Modal, SxProps, Typography } from '@mui/material';
 import { memo, useCallback } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { Contact } from '../../../models/contacts';
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import CenteredPaper from '../../../components/CenteredPaper';
-import FormTextField from '../../../components/FormTextField';
+import CreateContactForm from '../../../components/forms/CreateContactForm';
 
 export interface CreateContactModalProps {
   open: boolean;
   onClose: () => void;
-  onSubmit: (data: Contact) => void;
+  onSubmit: (data: ICreateContactForm) => void;
 }
+
+export type ICreateContactForm = {
+  email: string;
+  name: string;
+  lastName: string;
+  patronymic?: string;
+  telegram?: string;
+  phoneNumber?: string;
+  country?: string;
+};
 
 const CreateContactModal = ({
   open,
   onClose,
   onSubmit,
 }: CreateContactModalProps) => {
-  const { control, handleSubmit } = useForm<Contact>();
+  const methods = useForm<ICreateContactForm>({
+    defaultValues: {
+      email: '',
+      name: '',
+      lastName: '',
+      patronymic: '',
+      telegram: '',
+      phoneNumber: '',
+      country: '',
+    },
+  });
 
   const handleClose = useCallback(() => {
     onClose();
   }, [onClose]);
 
-  const handleSubmitForm = useCallback<SubmitHandler<Contact>>(
+  const handleSubmitForm = useCallback<SubmitHandler<ICreateContactForm>>(
     (data) => {
-      console.log(data);
       onSubmit(data);
+      handleClose();
+      methods.reset();
     },
-    [onSubmit]
+    [onSubmit, handleClose, methods]
   );
 
   const textFieldStyles: SxProps = {
@@ -53,64 +73,14 @@ const CreateContactModal = ({
           <Typography id="create-modal-title" variant="h6" component="h2">
             Input contact&apos;s data
           </Typography>
-          <form id="create-form" onSubmit={handleSubmit(handleSubmitForm)}>
-            <FormTextField
-              name="name"
-              control={control}
-              type="text"
-              autoComplete="off"
-              sx={textFieldStyles}
-              label="Name"
-              required
-              fullWidth
-            />
-            <FormTextField
-              name="lastName"
-              control={control}
-              type="text"
-              autoComplete="off"
-              sx={textFieldStyles}
-              label="Last name"
-              required
-              fullWidth
-            />
-            <FormTextField
-              name="patronymic"
-              control={control}
-              type="text"
-              autoComplete="off"
-              sx={textFieldStyles}
-              label="Patronymic"
-              fullWidth
-            />
-            <FormTextField
-              name="telegram"
-              control={control}
-              type="text"
-              autoComplete="off"
-              sx={textFieldStyles}
-              label="Telegram"
-              fullWidth
-            />
-            <FormTextField
-              name="phoneNumber"
-              control={control}
-              type="text"
-              autoComplete="off"
-              sx={textFieldStyles}
-              label="Phone"
-              fullWidth
-            />
-            <FormTextField
-              name="country"
-              control={control}
-              type="text"
-              autoComplete="off"
-              sx={textFieldStyles}
-              label="Country"
-              fullWidth
-            />
-          </form>
+          <FormProvider {...methods}>
+            <form
+              id="create-form"
+              onSubmit={methods.handleSubmit(handleSubmitForm)}
+            >
+              <CreateContactForm styles={textFieldStyles} />
+            </form>
+          </FormProvider>
           <Button
             form="create-form"
             type="submit"
