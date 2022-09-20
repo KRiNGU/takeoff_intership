@@ -38,6 +38,7 @@ const FormTextField = <T extends FieldValues, J extends FieldPath<T>>({
             name={name}
             ref={ref}
             error={!!error}
+            helperText={error?.message ? error.message : ''}
             {...fieldProps}
           />
           {error?.message && (
