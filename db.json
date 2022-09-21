@@ -7,5 +7,17 @@
       "id": 1
     }
   ],
-  "contacts": []
+  "contacts": [
+    {
+      "email": "contact1@mail.com",
+      "name": "Alexandr",
+      "lastName": "Alexandr",
+      "patronymic": "Alexandr",
+      "telegram": "@alex",
+      "phoneNumber": "+7-999-888-22-22",
+      "country": "Russia",
+      "ownerId": 1,
+      "id": 1
+    }
+  ]
 }

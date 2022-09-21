@@ -7,6 +7,7 @@ import {
   TableHead,
   TableBody,
   Button,
+  IconButton,
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { memo, useCallback, useEffect, useState } from 'react';
@@ -20,6 +21,7 @@ import UpdateContactModal, {
   IUpdateContactForm,
 } from './UpdateContactModal/UpdateContactModal';
 import ContactRow from './ContactRow';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 export const ContactListPage = () => {
   const dispatch = useAppDispatch();
@@ -91,6 +93,10 @@ export const ContactListPage = () => {
     [dispatch]
   );
 
+  const handleLogout = useCallback(() => {
+    dispatch({ type: 'LOGOUT' });
+  }, [dispatch]);
+
   return (
     <>
       <CreateContactModal
@@ -105,8 +111,25 @@ export const ContactListPage = () => {
         contact={updateContactState}
       />
       <Background styles={{ backgroundColor: 'white', padding: '40px' }}>
-        <h1 style={{ textAlign: 'center', color: '#303640' }}>
+        <h1
+          style={{
+            textAlign: 'center',
+            color: '#303640',
+            position: 'relative',
+          }}
+        >
           Список контактов пользователя {user.login}
+          <IconButton
+            onClick={handleLogout}
+            color="primary"
+            sx={{
+              marginLeft: '10px',
+              position: 'absolute',
+              right: '100px',
+            }}
+          >
+            <LogoutIcon width="40px" height="40px" />
+          </IconButton>
         </h1>
         <div
           style={{

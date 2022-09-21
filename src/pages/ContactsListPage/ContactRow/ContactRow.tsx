@@ -16,7 +16,7 @@ const ContactRow = ({ contact, onClick, onDeleteClick }: ContactRowProps) => {
   }));
 
   const StyledTableRow = styled(TableRow)(() => ({
-    '&:nth-of-type(odd)': {
+    '&:nth-of-type(even)': {
       backgroundColor: '#BABABA',
     },
     '&:last-child': {

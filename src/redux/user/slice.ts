@@ -8,13 +8,15 @@ export interface IUserState {
   password: string;
 }
 
-// Define the initial state using that type
-const initialState: IUserState = {
+const emptyUser: User = {
   id: 0,
   email: '',
   login: '',
   password: '',
-} as User;
+};
+
+// Define the initial state using that type
+const initialState: IUserState = emptyUser as User;
 
 export const stateSlice = createSlice({
   name: 'user',
@@ -26,9 +28,12 @@ export const stateSlice = createSlice({
       state.login = action.payload.login;
       state.password = action.payload.password;
     },
+    deleteUser: () => {
+      return emptyUser;
+    },
   },
 });
 
-export const { getUser } = stateSlice.actions;
+export const { getUser, deleteUser } = stateSlice.actions;
 
 export default stateSlice.reducer;
