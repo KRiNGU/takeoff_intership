@@ -136,7 +136,7 @@ export const ContactListPage = () => {
         <h1
           style={{
             textAlign: 'center',
-            color: '#303640',
+            color: '#1D1F26',
             position: 'relative',
           }}
         >
@@ -153,7 +153,9 @@ export const ContactListPage = () => {
               right: '100px',
             }}
           >
-            <LogoutIcon sx={{ width: '40px', height: '40px' }} />
+            <LogoutIcon
+              sx={{ width: '40px', height: '40px', color: '#1D1F26' }}
+            />
           </IconButton>
         </h1>
         <div

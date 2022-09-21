@@ -26,15 +26,15 @@
       "id": 1
     },
     {
-      "email": "contact2@mail.com",
-      "name": "Alexandr",
-      "lastName": "Alexandr",
-      "patronymic": "",
-      "telegram": "@lex",
-      "phoneNumber": "",
-      "country": "",
+      "email": "contact3@gmail.com",
+      "name": "Contact3",
+      "lastName": "Contact3LastName",
+      "patronymic": "Contact3Patronymic",
+      "phoneNumber": "+7-888-888-88-88",
+      "telegram": "@con3_tg",
+      "country": "Russia",
       "ownerId": 1,
-      "id": 2
+      "id": 3
     }
   ]
 }
