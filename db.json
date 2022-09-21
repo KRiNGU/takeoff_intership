@@ -12,10 +12,12 @@
       "id": 1,
       "ownerId": 1,
       "email": "contact1@mail.com",
-      "name": "John",
+      "name": "Johnny",
       "lastName": "Smith",
       "telegram": "@j0hn_sm1th",
-      "country": "Great Britain"
+      "country": "Great Britain",
+      "patronymic": "",
+      "phoneNumber": ""
     },
     {
       "name": "Alex",

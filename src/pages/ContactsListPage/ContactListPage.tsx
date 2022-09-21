@@ -8,6 +8,7 @@ import {
   TableBody,
   Button,
 } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
 import { styled } from '@mui/system';
 import { memo, useCallback, useEffect, useState } from 'react';
 import Background from '../../components/Background';
@@ -16,6 +17,9 @@ import { User } from '../../models/user';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import CreateContactModal from './CreateContactModal';
 import { ICreateContactForm } from './CreateContactModal/CreateContactModal';
+import UpdateContactModal, {
+  IUpdateContactForm,
+} from './UpdateContactModal/UpdateContactModal';
 
 export const ContactListPage = () => {
   const dispatch = useAppDispatch();
@@ -23,6 +27,20 @@ export const ContactListPage = () => {
   const contactList = useAppSelector<Contact[]>((state) => state.contacts);
   const [isCreateModalOpened, setIsCreateModalOpened] =
     useState<boolean>(false);
+  const [isUpdateContactOpened, setIsUpdateModalOpened] =
+    useState<boolean>(false);
+
+  const [updateContactState, setUpdateContactState] =
+    useState<IUpdateContactForm>({
+      email: '',
+      name: '',
+      lastName: '',
+      patronymic: '',
+      phoneNumber: '',
+      telegram: '',
+      country: '',
+    });
+  const [updateContactId, setUpdateContactId] = useState<number>(0);
 
   useEffect(() => {
     dispatch({ type: 'GET_CONTACTS', payload: { ownerId: user.id } });
@@ -57,6 +75,26 @@ export const ContactListPage = () => {
     setIsCreateModalOpened(false);
   }, []);
 
+  const handleCloseUpdateContactModal = useCallback(() => {
+    setIsUpdateModalOpened(false);
+  }, []);
+
+  const handleContactClick = useCallback((contact: Contact) => {
+    setUpdateContactState((prev) => ({ ...prev, ...contact }));
+    setUpdateContactId(contact.id);
+    setIsUpdateModalOpened(true);
+  }, []);
+
+  const handleUpdateContact = useCallback(
+    (data: IUpdateContactForm) => {
+      dispatch({
+        type: 'UPDATE_CONTACT',
+        payload: { contact: data, id: updateContactId },
+      });
+    },
+    [dispatch, updateContactId]
+  );
+
   const handleCreateNewContact = useCallback(
     (data: ICreateContactForm) => {
       dispatch({
@@ -73,6 +111,12 @@ export const ContactListPage = () => {
         open={isCreateModalOpened}
         onClose={handleCloseCreateNewContactModal}
         onSubmit={handleCreateNewContact}
+      />
+      <UpdateContactModal
+        open={isUpdateContactOpened}
+        onClose={handleCloseUpdateContactModal}
+        onSubmit={handleUpdateContact}
+        contact={updateContactState}
       />
       <Background styles={{ backgroundColor: 'white', padding: '40px' }}>
         <h1 style={{ textAlign: 'center', color: '#303640' }}>
@@ -110,7 +154,7 @@ export const ContactListPage = () => {
               <TableBody>
                 {contactList.map((contact, index) => (
                   <StyledTableRow
-                    onClick={() => console.log(index)}
+                    onClick={() => handleContactClick(contact)}
                     key={index}
                   >
                     <StyledTableCell align="center">
@@ -129,7 +173,18 @@ export const ContactListPage = () => {
                 ))}
               </TableBody>
             </Table>
-            <Button onClick={handleCreateNewContactButtonClick}>Create</Button>
+            <Button
+              variant="contained"
+              sx={{
+                width: '100%',
+                padding: '0',
+                height: '50px',
+                borderRadius: '0',
+              }}
+              onClick={handleCreateNewContactButtonClick}
+            >
+              <AddIcon />
+            </Button>
           </TableContainer>
         </div>
       </Background>

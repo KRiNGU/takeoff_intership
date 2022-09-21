@@ -1,4 +1,4 @@
-import { CreateContactProps } from '../../api/contact';
+import { CreateContactProps, UpdateContactProps } from '../../api/contact';
 import { TypeWithPayload } from '../types';
 
 export interface GetContactsByOwnerIdSliceProps extends TypeWithPayload {
@@ -10,5 +10,12 @@ export interface GetContactsByOwnerIdSliceProps extends TypeWithPayload {
 export interface CreateContactSliceProps extends TypeWithPayload {
   payload: {
     contact: CreateContactProps;
+  };
+}
+
+export interface UpdateContactSliceProps extends TypeWithPayload {
+  payload: {
+    contact: UpdateContactProps;
+    id: number;
   };
 }

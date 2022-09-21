@@ -1,17 +1,17 @@
 import { SxProps } from '@mui/material';
 import { memo } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { ICreateContactForm } from '../../pages/ContactsListPage/CreateContactModal/CreateContactModal';
+import { IUpdateContactForm } from '../../pages/ContactsListPage/UpdateContactModal/UpdateContactModal';
 import { phoneNumberRules } from '../../validation/phoneNumber';
 import { telegramRules } from '../../validation/telegram';
 import FormTextField from '../FormTextField';
 
-export interface CreateContactFormProps {
+export interface UpdateContactFormProps {
   styles?: SxProps;
 }
 
-const CreateContactForm = ({ styles }: CreateContactFormProps) => {
-  const { control } = useFormContext<ICreateContactForm>();
+const UpdateContactForm = ({ styles }: UpdateContactFormProps) => {
+  const { control } = useFormContext<IUpdateContactForm>();
   return (
     <>
       <FormTextField
@@ -86,4 +86,4 @@ const CreateContactForm = ({ styles }: CreateContactFormProps) => {
   );
 };
 
-export default memo(CreateContactForm);
+export default memo(UpdateContactForm);

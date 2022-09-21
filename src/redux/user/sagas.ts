@@ -21,7 +21,7 @@ function* createUserWorker({ payload: { user } }: CreateUserSagaProps) {
 
     yield put(getUser(data));
   } catch (err) {
-    console.log(err);
+    console.error(err);
   }
 }
 
@@ -39,7 +39,7 @@ function* loginWorker({ payload: { login, password } }: GetUserSagaProps) {
     }
     yield put(getUser(data[0]));
   } catch (err) {
-    console.log(err);
+    console.error(err);
   }
 }
 
