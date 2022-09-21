@@ -35,6 +35,11 @@ export const updateDefaultState = createDefaultState;
 
 // ---------------------------------------------------- API ----------------------------------------------------
 
+export interface GetContactsProps {
+  ownerId: number;
+  search?: string;
+}
+
 export interface CreateContactProps extends ICreateContactForm {
   ownerId: number;
 }
@@ -52,9 +57,7 @@ export interface UpdateContactProps {
 // ---------------------------------------------------- Sagas ----------------------------------------------------
 
 export interface GetContactsByOwnerIdWorkerProps extends TypeWithPayload {
-  payload: {
-    ownerId: number;
-  };
+  payload: GetContactsProps;
 }
 
 export interface CreateContactWorkerProps extends TypeWithPayload {

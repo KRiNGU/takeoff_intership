@@ -37,13 +37,11 @@ function* updateContactWorker({
   }
 }
 
-function* createContactWorker({
-  payload: { contact },
-}: CreateContactWorkerProps) {
+function* createContactWorker({ payload }: CreateContactWorkerProps) {
   try {
     const response: AxiosResponse<Contact> = yield call(
       contactAPI.createContactAPI,
-      contact
+      payload
     );
 
     const data: Contact = response.data;
@@ -54,13 +52,11 @@ function* createContactWorker({
   }
 }
 
-function* getContactsByOwnerIdWorker({
-  payload: { ownerId },
-}: GetContactsByOwnerIdWorkerProps) {
+function* getContactsWorker({ payload }: GetContactsByOwnerIdWorkerProps) {
   try {
     const response: AxiosResponse<Contact[]> = yield call(
-      contactAPI.getContactsByOwnerIdAPI,
-      ownerId
+      contactAPI.getContactsAPI,
+      payload
     );
 
     const data: Contact[] = response.data;
@@ -80,7 +76,7 @@ export function* clearContactsWorker() {
 }
 
 export default function* rootSaga() {
-  yield takeLatest('GET_CONTACTS', getContactsByOwnerIdWorker);
+  yield takeLatest('GET_CONTACTS', getContactsWorker);
   yield takeLatest('CREATE_CONTACT', createContactWorker);
   yield takeLatest('UPDATE_CONTACT', updateContactWorker);
   yield takeLatest('DELETE_CONTACT', deleteContactWorker);

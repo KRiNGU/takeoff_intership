@@ -28,6 +28,7 @@ const ContactRow = ({ contact, onClick, onDeleteClick }: ContactRowProps) => {
     '&:active': {
       backgroundColor: '#B8BBFF',
     },
+    overflow: 'hidden',
     cursor: 'pointer',
     transition: 'background-color 0.3s',
     position: 'relative',

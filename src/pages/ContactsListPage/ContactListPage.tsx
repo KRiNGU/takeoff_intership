@@ -8,6 +8,7 @@ import {
   TableBody,
   Button,
   IconButton,
+  TextField,
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { memo, useCallback, useEffect, useState } from 'react';
@@ -24,6 +25,7 @@ import CreateContactModal from './CreateContactModal';
 import UpdateContactModal from './UpdateContactModal/UpdateContactModal';
 import ContactRow from '../../components/ContactRow';
 import LogoutIcon from '@mui/icons-material/Logout';
+import SearchIcon from '@mui/icons-material/Search';
 
 export const ContactListPage = () => {
   const dispatch = useAppDispatch();
@@ -38,10 +40,16 @@ export const ContactListPage = () => {
 
   const [updateContactState, setUpdateContactState] =
     useState<IUpdateContactForm>(updateDefaultState);
+
   const [updateContactId, setUpdateContactId] = useState<number>(0);
 
+  const [searchField, setSearchField] = useState<string>('');
+
   useEffect(() => {
-    dispatch({ type: 'GET_CONTACTS', payload: { ownerId: user.id } });
+    dispatch({
+      type: 'GET_CONTACTS',
+      payload: { ownerId: user.id },
+    });
   }, [dispatch, user.id]);
 
   const handleCreateNewContactButtonClick = useCallback(() => {
@@ -62,6 +70,13 @@ export const ContactListPage = () => {
     setIsUpdateModalOpened(true);
   }, []);
 
+  const handleChangeSearchField = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setSearchField(e.target.value);
+    },
+    []
+  );
+
   const handleUpdateContact = useCallback(
     (data: IUpdateContactForm) => {
       dispatch({
@@ -76,7 +91,7 @@ export const ContactListPage = () => {
     (data: ICreateContactForm) => {
       dispatch({
         type: 'CREATE_CONTACT',
-        payload: { contact: { ...data, ownerId: user.id } },
+        payload: { ...data, ownerId: user.id },
       });
     },
     [dispatch, user.id]
@@ -87,6 +102,17 @@ export const ContactListPage = () => {
       dispatch({ type: 'DELETE_CONTACT', payload: { id: contactId } });
     },
     [dispatch]
+  );
+
+  const handleSubmitSearchForm = useCallback(
+    (e: React.SyntheticEvent) => {
+      e.preventDefault();
+      dispatch({
+        type: 'GET_CONTACTS',
+        payload: { ownerId: user.id, search: searchField },
+      });
+    },
+    [dispatch, user.id, searchField]
   );
 
   const handleLogout = useCallback(() => {
@@ -141,8 +167,60 @@ export const ContactListPage = () => {
             marginTop: '50px',
           }}
         >
-          <TableContainer component={Paper}>
-            <Table aria-label="Contacts table">
+          <TableContainer
+            sx={{
+              marginTop: '100px',
+              position: 'relative',
+              overflow: 'visible',
+              borderRadius: '5px',
+            }}
+            component={Paper}
+          >
+            <Paper>
+              <form
+                style={{
+                  width: '400px',
+                  position: 'absolute',
+                  right: '0',
+                  transform: 'translate(0, -100%)',
+                  backgroundColor: 'white',
+                  borderRadius: '0',
+                  borderTopLeftRadius: '5px',
+                  borderTopRightRadius: '5px',
+                  display: 'flex',
+                  overflow: 'hidden',
+                }}
+                onSubmit={handleSubmitSearchForm}
+                id="search-form"
+              >
+                <TextField
+                  autoComplete="off"
+                  variant="filled"
+                  value={searchField}
+                  onChange={handleChangeSearchField}
+                  sx={{
+                    width: '100%',
+                    backgroundColor: 'white',
+                    borderTopRightRadius: '5px',
+                  }}
+                />
+                <Button
+                  type="submit"
+                  form="search-form"
+                  variant="contained"
+                  sx={{
+                    borderRadius: '0',
+                    borderTopRightRadius: '5px',
+                  }}
+                >
+                  <SearchIcon />
+                </Button>
+              </form>
+            </Paper>
+            <Table
+              aria-label="Contacts table"
+              sx={{ overflow: 'hidden', borderTopLeftRadius: '5px' }}
+            >
               <TableHead>
                 <TableRow sx={{ backgroundColor: '#303640' }}>
                   <TableCell align="center" sx={{ color: 'white' }}>
@@ -176,7 +254,8 @@ export const ContactListPage = () => {
                 width: '100%',
                 padding: '0',
                 height: '50px',
-                borderRadius: '0',
+                borderTopLeftRadius: '0',
+                borderTopRightRadius: '0',
               }}
               onClick={handleCreateNewContactButtonClick}
             >

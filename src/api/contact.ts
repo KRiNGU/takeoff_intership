@@ -1,8 +1,14 @@
-import { CreateContactProps, UpdateContactProps } from '../models/contacts';
+import {
+  CreateContactProps,
+  GetContactsProps,
+  UpdateContactProps,
+} from '../models/contacts';
 import axios from './main';
 
-export const getContactsByOwnerIdAPI = async (ownerId: number) =>
-  await axios.get(`/contacts?ownerId=${ownerId}`);
+export const getContactsAPI = async ({ ownerId, search }: GetContactsProps) =>
+  await axios.get(
+    `/contacts?ownerId=${ownerId}${search ? `&q=${search}` : ''}`
+  );
 
 export const createContactAPI = async (contact: CreateContactProps) =>
   await axios.post(`/contacts`, contact);
