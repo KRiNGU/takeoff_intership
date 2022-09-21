@@ -1,16 +1,14 @@
 import { Button, Link, SxProps } from '@mui/material';
-import Container from '@mui/material/Container';
-import { memo, useCallback } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { memo, useCallback, useEffect } from 'react';
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import Background from '../../components/Background';
 import CenteredPaper from '../../components/CenteredPaper';
-import FormTextField from '../../components/FormTextField';
-import { useAppDispatch } from '../../redux/hooks';
-import { loginRules } from '../../validation/login';
-import { passwordRules } from '../../validation/password';
+import { LoginForm } from '../../components/forms/LoginForm';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import styles from './LoginPage.module.scss';
 
-type Inputs = {
+export type ILoginForm = {
   login: string;
   password: string;
 };
@@ -18,10 +16,20 @@ type Inputs = {
 const LoginPage = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const error: string = useAppSelector<string>((state) => state.user.error);
 
-  const { handleSubmit, control } = useForm<Inputs>();
+  const methods = useForm<ILoginForm>();
 
-  const onSubmit = useCallback<SubmitHandler<Inputs>>(
+  useEffect(() => {
+    if (error) {
+      methods.setError('login', { message: error });
+      methods.setError('password', { message: error });
+    } else {
+      methods.clearErrors();
+    }
+  }, [error, methods]);
+
+  const onSubmit = useCallback<SubmitHandler<ILoginForm>>(
     (data) => {
       dispatch({ type: 'GET_USER', payload: data });
     },
@@ -30,89 +38,42 @@ const LoginPage = () => {
 
   const textFieldStyles: SxProps = {
     marginTop: '10px',
-    backgroundColor: '#43686F',
     borderRadius: '5px',
-    input: {
-      color: '#D7D6DE',
-      borderRadius: '5px',
-    },
   };
 
   const handleRegisterLinkClick = useCallback(() => {
     navigate('/register');
-  }, [navigate]);
+    dispatch({ type: 'CLEAR_ERROR' });
+  }, [navigate, dispatch]);
 
   return (
-    <Container
-      maxWidth={false}
-      disableGutters
-      sx={{
-        backgroundColor: '#193F48',
-        overflow: 'hidden',
-        minHeight: '100%',
-        position: 'relative',
-      }}
-    >
+    <Background>
       <CenteredPaper
         width="500px"
         styles={{
-          backgroundColor: '#112433',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           padding: '40px 70px',
         }}
       >
-        <form
-          id="login-form"
-          className={styles.form}
-          onSubmit={handleSubmit(onSubmit)}
-        >
-          <label htmlFor="login" className={styles.label}>
-            Login:
-          </label>
-          <FormTextField
-            name="login"
-            control={control}
-            variant="outlined"
-            margin="normal"
-            type="text"
-            autoComplete="off"
-            sx={textFieldStyles}
-            id="login"
-            controllerProps={{
-              rules: loginRules,
-            }}
-            fullWidth
-            required
-          />
-          <label htmlFor="password" className={styles.label}>
-            Password:
-          </label>
-          <FormTextField
-            name="password"
-            control={control}
-            variant="outlined"
-            margin="normal"
-            type="text"
-            autoComplete="off"
-            sx={textFieldStyles}
-            id="password"
-            controllerProps={{
-              rules: passwordRules,
-            }}
-            fullWidth
-            required
-          />
-          <Button
-            variant="contained"
-            type="submit"
-            form="login-form"
-            sx={{ marginTop: '50px' }}
+        <FormProvider {...methods}>
+          <form
+            id="login-form"
+            className={styles.form}
+            onSubmit={methods.handleSubmit(onSubmit)}
           >
-            Submit
-          </Button>
-        </form>
+            <LoginForm styles={textFieldStyles} />
+            <Button
+              variant="contained"
+              type="submit"
+              form="login-form"
+              sx={{ marginTop: '50px' }}
+            >
+              Submit
+            </Button>
+          </form>
+        </FormProvider>
         <Link
           className={styles.link}
           onClick={handleRegisterLinkClick}
@@ -121,7 +82,7 @@ const LoginPage = () => {
           Register
         </Link>
       </CenteredPaper>
-    </Container>
+    </Background>
   );
 };
 

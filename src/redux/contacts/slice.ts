@@ -9,9 +9,7 @@ export const contactSlice = createSlice({
   initialState,
   reducers: {
     getContacts: (state, action: PayloadAction<Contact[]>) => {
-      action.payload.forEach((contact: Contact) => {
-        state.push(contact);
-      });
+      return action.payload;
     },
     createContact: (state, action: PayloadAction<Contact>) => {
       state.push(action.payload);
@@ -28,10 +26,18 @@ export const contactSlice = createSlice({
       ) as Contact[];
       return change;
     },
+    clearContacts: () => {
+      return initialState;
+    },
   },
 });
 
-export const { getContacts, createContact, editContact, deleteContact } =
-  contactSlice.actions;
+export const {
+  getContacts,
+  createContact,
+  editContact,
+  deleteContact,
+  clearContacts,
+} = contactSlice.actions;
 
 export default contactSlice.reducer;

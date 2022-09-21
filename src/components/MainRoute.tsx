@@ -36,7 +36,7 @@ const MainRoute = (props: MainRouteProps) => (
 );
 
 const mapStoreToProps = (store: IStore): MainRouteProps => ({
-  userId: store.user.id,
+  userId: store.user.user.id,
 });
 
 export default connect(mapStoreToProps)(MainRoute);

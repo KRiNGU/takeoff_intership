@@ -12,7 +12,7 @@ const Background = ({ children, styles }: BackgroundProps) => (
     maxWidth={false}
     disableGutters
     sx={{
-      backgroundColor: '#193F48',
+      backgroundColor: '#53AFD8',
       minHeight: '100%',
       position: 'relative',
       ...styles,

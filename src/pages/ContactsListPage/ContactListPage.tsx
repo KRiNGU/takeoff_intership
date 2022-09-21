@@ -25,7 +25,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 
 export const ContactListPage = () => {
   const dispatch = useAppDispatch();
-  const user = useAppSelector<User>((state) => state.user);
+  const user = useAppSelector<User>((state) => state.user.user);
   const contactList = useAppSelector<Contact[]>((state) => state.contacts);
   const [isCreateModalOpened, setIsCreateModalOpened] =
     useState<boolean>(false);
@@ -110,7 +110,7 @@ export const ContactListPage = () => {
         onSubmit={handleUpdateContact}
         contact={updateContactState}
       />
-      <Background styles={{ backgroundColor: 'white', padding: '40px' }}>
+      <Background styles={{ padding: '40px' }}>
         <h1
           style={{
             textAlign: 'center',
@@ -121,14 +121,17 @@ export const ContactListPage = () => {
           Список контактов пользователя {user.login}
           <IconButton
             onClick={handleLogout}
-            color="primary"
             sx={{
+              width: '60px',
+              height: '60px',
               marginLeft: '10px',
               position: 'absolute',
+              top: '50%',
+              transform: 'translate(0, -50%)',
               right: '100px',
             }}
           >
-            <LogoutIcon width="40px" height="40px" />
+            <LogoutIcon sx={{ width: '40px', height: '40px' }} />
           </IconButton>
         </h1>
         <div

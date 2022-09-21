@@ -10,9 +10,7 @@ import {
   DeleteContactWorkerProps,
 } from './types';
 
-export function* deleteContactWorker({
-  payload: { id },
-}: DeleteContactWorkerProps) {
+function* deleteContactWorker({ payload: { id } }: DeleteContactWorkerProps) {
   try {
     yield call(contactAPI.deleteContactAPI, id);
     yield put(contactSlice.deleteContact({ id }));
@@ -21,7 +19,7 @@ export function* deleteContactWorker({
   }
 }
 
-export function* updateContactWorker({
+function* updateContactWorker({
   payload: { id, contact },
 }: UpdateContactWorkerProps) {
   try {
@@ -39,7 +37,7 @@ export function* updateContactWorker({
   }
 }
 
-export function* createContactWorker({
+function* createContactWorker({
   payload: { contact },
 }: CreateContactWorkerProps) {
   try {
@@ -56,7 +54,7 @@ export function* createContactWorker({
   }
 }
 
-export function* getContactsByOwnerIdWorker({
+function* getContactsByOwnerIdWorker({
   payload: { ownerId },
 }: GetContactsByOwnerIdWorkerProps) {
   try {
@@ -68,6 +66,14 @@ export function* getContactsByOwnerIdWorker({
     const data: Contact[] = response.data;
 
     yield put(contactSlice.getContacts(data));
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+export function* clearContactsWorker() {
+  try {
+    yield put(contactSlice.clearContacts());
   } catch (err) {
     console.error(err);
   }

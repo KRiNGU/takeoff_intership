@@ -1,17 +1,15 @@
-import { Button, Container, Link, SxProps } from '@mui/material';
-import { memo, useCallback } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { Button, Link, SxProps } from '@mui/material';
+import { memo, useCallback, useEffect } from 'react';
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { CreateUserProps } from '../../api/user';
+import Background from '../../components/Background';
 import CenteredPaper from '../../components/CenteredPaper';
-import FormTextField from '../../components/FormTextField';
-import { useAppDispatch } from '../../redux/hooks';
-import { emailRules } from '../../validation/email';
-import { loginRules } from '../../validation/login';
-import { passwordRules } from '../../validation/password';
+import { SignUpForm } from '../../components/forms/SignupForm';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import styles from './RegisterPage.module.scss';
 
-type Inputs = {
+export type ISignUpForm = {
   email: string;
   login: string;
   password: string;
@@ -20,10 +18,19 @@ type Inputs = {
 const RegisterPage = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const error: string = useAppSelector<string>((state) => state.user.error);
 
-  const { handleSubmit, control } = useForm<Inputs>();
+  const methods = useForm<ISignUpForm>();
 
-  const onSubmit = useCallback<SubmitHandler<Inputs>>(
+  useEffect(() => {
+    if (error) {
+      methods.setError('login', { message: error });
+    } else {
+      methods.clearErrors();
+    }
+  }, [error, methods]);
+
+  const onSubmit = useCallback<SubmitHandler<ISignUpForm>>(
     (user: CreateUserProps) =>
       dispatch({ type: 'CREATE_USER', payload: { user } }),
     [dispatch]
@@ -31,106 +38,45 @@ const RegisterPage = () => {
 
   const textFieldStyles: SxProps = {
     marginTop: '10px',
-    backgroundColor: '#43686F',
     borderRadius: '5px',
     input: {
-      color: '#D7D6DE',
       borderRadius: '5px',
     },
   };
 
   const handleLoginLinkClick = useCallback(() => {
     navigate('/login');
-  }, [navigate]);
+    dispatch({ type: 'CLEAR_ERROR' });
+  }, [navigate, dispatch]);
 
   return (
-    <Container
-      maxWidth={false}
-      disableGutters
-      sx={{
-        backgroundColor: '#193F48',
-        overflow: 'hidden',
-        minHeight: '100%',
-        position: 'relative',
-      }}
-    >
+    <Background>
       <CenteredPaper
         width="500px"
         styles={{
-          backgroundColor: '#112433',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
           padding: '40px 70px',
         }}
       >
-        <form
-          id="login-form"
-          className={styles.form}
-          onSubmit={handleSubmit(onSubmit)}
-        >
-          <label htmlFor="email" className={styles.label}>
-            Email:
-          </label>
-          <FormTextField
-            name="email"
-            control={control}
-            variant="outlined"
-            margin="normal"
-            type="text"
-            autoComplete="off"
-            sx={textFieldStyles}
-            id="email"
-            controllerProps={{
-              rules: emailRules,
-            }}
-            fullWidth
-            required
-          />
-          <label htmlFor="login" className={styles.label}>
-            Login:
-          </label>
-          <FormTextField
-            name="login"
-            control={control}
-            variant="outlined"
-            margin="normal"
-            type="text"
-            autoComplete="off"
-            sx={textFieldStyles}
-            id="login"
-            controllerProps={{
-              rules: loginRules,
-            }}
-            fullWidth
-          />
-          <label htmlFor="password" className={styles.label}>
-            Password:
-          </label>
-          <FormTextField
-            name="password"
-            control={control}
-            variant="outlined"
-            margin="normal"
-            type="text"
-            autoComplete="off"
-            sx={textFieldStyles}
-            id="password"
-            controllerProps={{
-              rules: passwordRules,
-            }}
-            fullWidth
-            required
-          />
-          <Button
-            variant="contained"
-            type="submit"
-            form="login-form"
-            sx={{ marginTop: '50px' }}
+        <FormProvider {...methods}>
+          <form
+            id="login-form"
+            className={styles.form}
+            onSubmit={methods.handleSubmit(onSubmit)}
           >
-            Submit
-          </Button>
-        </form>
+            <SignUpForm styles={textFieldStyles} />
+            <Button
+              variant="contained"
+              type="submit"
+              form="login-form"
+              sx={{ marginTop: '50px' }}
+            >
+              Submit
+            </Button>
+          </form>
+        </FormProvider>
         <Link
           className={styles.link}
           onClick={handleLoginLinkClick}
@@ -139,7 +85,7 @@ const RegisterPage = () => {
           Login
         </Link>
       </CenteredPaper>
-    </Container>
+    </Background>
   );
 };
 

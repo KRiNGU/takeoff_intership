@@ -2,10 +2,8 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { User } from '../../models/user';
 
 export interface IUserState {
-  id: number;
-  email: string;
-  login: string;
-  password: string;
+  user: User;
+  error: string;
 }
 
 const emptyUser: User = {
@@ -16,24 +14,24 @@ const emptyUser: User = {
 };
 
 // Define the initial state using that type
-const initialState: IUserState = emptyUser as User;
+const initialState: IUserState = { user: emptyUser, error: '' };
 
 export const stateSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
     getUser: (state, action: PayloadAction<User>) => {
-      state.id = action.payload.id;
-      state.email = action.payload.email;
-      state.login = action.payload.login;
-      state.password = action.payload.password;
+      state.user = action.payload;
     },
-    deleteUser: () => {
-      return emptyUser;
+    deleteUser: (state) => {
+      state.user = emptyUser;
+    },
+    setError: (state, action: PayloadAction<string>) => {
+      state.error = action.payload;
     },
   },
 });
 
-export const { getUser, deleteUser } = stateSlice.actions;
+export const { getUser, deleteUser, setError } = stateSlice.actions;
 
 export default stateSlice.reducer;

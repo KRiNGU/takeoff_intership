@@ -5,19 +5,36 @@
       "login": "alexandr",
       "password": "password",
       "id": 1
+    },
+    {
+      "email": "alexandr@mail.com",
+      "login": "alexandr",
+      "password": "asdasdasd",
+      "id": 2
     }
   ],
   "contacts": [
     {
       "email": "contact1@mail.com",
       "name": "Alexandr",
-      "lastName": "Alexandr",
+      "lastName": "Alexandrius",
       "patronymic": "Alexandr",
       "telegram": "@alex",
       "phoneNumber": "+7-999-888-22-22",
       "country": "Russia",
       "ownerId": 1,
       "id": 1
+    },
+    {
+      "email": "contact2@mail.com",
+      "name": "Alexandr",
+      "lastName": "Alexandr",
+      "patronymic": "",
+      "telegram": "@lex",
+      "phoneNumber": "",
+      "country": "",
+      "ownerId": 1,
+      "id": 2
     }
   ]
 }
