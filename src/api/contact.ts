@@ -11,7 +11,10 @@ export const createContactAPI = async (contact: CreateContactProps) =>
 export const updateContactAPI = async (
   id: number,
   contact: UpdateContactProps
-) => axios.patch(`/contacts/${id}`, contact);
+) => await axios.patch(`/contacts/${id}`, contact);
+
+export const deleteContactAPI = async (id: number) =>
+  await axios.delete(`/contacts/${id}`);
 
 // ---------------------------------------------------- TYPES ----------------------------------------------------
 

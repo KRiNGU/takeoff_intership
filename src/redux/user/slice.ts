@@ -9,7 +9,12 @@ export interface IUserState {
 }
 
 // Define the initial state using that type
-const initialState: IUserState = { id: 0, email: '', login: '', password: '' };
+const initialState: IUserState = {
+  id: 0,
+  email: '',
+  login: '',
+  password: '',
+} as User;
 
 export const stateSlice = createSlice({
   name: 'user',

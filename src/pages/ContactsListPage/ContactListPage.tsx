@@ -9,7 +9,6 @@ import {
   Button,
 } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
-import { styled } from '@mui/system';
 import { memo, useCallback, useEffect, useState } from 'react';
 import Background from '../../components/Background';
 import { Contact } from '../../models/contacts';
@@ -20,6 +19,7 @@ import { ICreateContactForm } from './CreateContactModal/CreateContactModal';
 import UpdateContactModal, {
   IUpdateContactForm,
 } from './UpdateContactModal/UpdateContactModal';
+import ContactRow from './ContactRow';
 
 export const ContactListPage = () => {
   const dispatch = useAppDispatch();
@@ -45,27 +45,6 @@ export const ContactListPage = () => {
   useEffect(() => {
     dispatch({ type: 'GET_CONTACTS', payload: { ownerId: user.id } });
   }, [dispatch, user.id]);
-
-  const StyledTableCell = styled(TableCell)(() => ({
-    borderColor: 'grey',
-  }));
-
-  const StyledTableRow = styled(TableRow)(() => ({
-    '&:nth-of-type(odd)': {
-      backgroundColor: '#BABABA',
-    },
-    '&:last-child': {
-      borderWidth: 0,
-    },
-    '&:hover': {
-      backgroundColor: '#9EA0C2',
-    },
-    '&:active': {
-      backgroundColor: '#B8BBFF',
-    },
-    cursor: 'pointer',
-    transition: 'background-color 0.3s',
-  }));
 
   const handleCreateNewContactButtonClick = useCallback(() => {
     setIsCreateModalOpened(true);
@@ -103,6 +82,13 @@ export const ContactListPage = () => {
       });
     },
     [dispatch, user.id]
+  );
+
+  const handleDeleteContact = useCallback(
+    (contactId: number) => {
+      dispatch({ type: 'DELETE_CONTACT', payload: { id: contactId } });
+    },
+    [dispatch]
   );
 
   return (
@@ -153,23 +139,12 @@ export const ContactListPage = () => {
               </TableHead>
               <TableBody>
                 {contactList.map((contact, index) => (
-                  <StyledTableRow
-                    onClick={() => handleContactClick(contact)}
+                  <ContactRow
+                    onDeleteClick={handleDeleteContact}
+                    onClick={handleContactClick}
+                    contact={contact}
                     key={index}
-                  >
-                    <StyledTableCell align="center">
-                      {contact.id}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      {contact.email}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      {contact.name}
-                    </StyledTableCell>
-                    <StyledTableCell align="center">
-                      {contact.lastName}
-                    </StyledTableCell>
-                  </StyledTableRow>
+                  />
                 ))}
               </TableBody>
             </Table>

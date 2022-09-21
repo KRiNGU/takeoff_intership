@@ -95,7 +95,7 @@ const UpdateContactModal = ({
             variant="contained"
             sx={{ marginTop: '20px' }}
           >
-            Create
+            Update
           </Button>
         </CenteredPaper>
       </div>
