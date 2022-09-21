@@ -1,7 +1,8 @@
 import { SxProps } from '@mui/material';
 import { memo } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { IUpdateContactForm } from '../../pages/ContactsListPage/UpdateContactModal/UpdateContactModal';
+import { IUpdateContactForm } from '../../models/contacts';
+import { emailRules } from '../../validation/email';
 import { phoneNumberRules } from '../../validation/phoneNumber';
 import { telegramRules } from '../../validation/telegram';
 import FormTextField from '../FormTextField';
@@ -41,6 +42,7 @@ const UpdateContactForm = ({ styles }: UpdateContactFormProps) => {
         autoComplete="off"
         sx={styles}
         label="Email"
+        controllerProps={{ rules: emailRules }}
         required
         fullWidth
       />

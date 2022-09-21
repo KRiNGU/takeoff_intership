@@ -1,10 +1,9 @@
 import { AxiosResponse } from 'axios';
 import { call, put, takeLatest } from 'redux-saga/effects';
 import * as userAPI from '../../api/user';
-import { User } from '../../models/user';
+import { CreateUserSagaProps, GetUserSagaProps, User } from '../../models/user';
 import { clearContactsWorker } from '../contacts/sagas';
 import * as userSlice from './slice';
-import { CreateUserSagaProps, GetUserSagaProps } from './types';
 
 function* createUserWorker({ payload: { user } }: CreateUserSagaProps) {
   try {

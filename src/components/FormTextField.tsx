@@ -38,20 +38,9 @@ const FormTextField = <T extends FieldValues, J extends FieldPath<T>>({
             name={name}
             ref={ref}
             error={!!error}
+            helperText={error?.message ? error.message : ''}
             {...fieldProps}
           />
-          {error?.message && (
-            <p
-              style={{
-                color: '#d32f2f',
-                fontSize: '11px',
-                alignSelf: 'start',
-                marginLeft: '5px',
-              }}
-            >
-              {error.message}
-            </p>
-          )}
         </>
       );
     }}

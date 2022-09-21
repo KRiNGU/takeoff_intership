@@ -3,6 +3,10 @@ import { memo, useCallback } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import CenteredPaper from '../../../components/CenteredPaper';
 import CreateContactForm from '../../../components/forms/CreateContactForm';
+import {
+  createDefaultState,
+  ICreateContactForm,
+} from '../../../models/contacts';
 
 export interface CreateContactModalProps {
   open: boolean;
@@ -10,31 +14,13 @@ export interface CreateContactModalProps {
   onSubmit: (data: ICreateContactForm) => void;
 }
 
-export type ICreateContactForm = {
-  email: string;
-  name: string;
-  lastName: string;
-  patronymic?: string;
-  telegram?: string;
-  phoneNumber?: string;
-  country?: string;
-};
-
 const CreateContactModal = ({
   open,
   onClose,
   onSubmit,
 }: CreateContactModalProps) => {
   const methods = useForm<ICreateContactForm>({
-    defaultValues: {
-      email: '',
-      name: '',
-      lastName: '',
-      patronymic: '',
-      telegram: '',
-      phoneNumber: '',
-      country: '',
-    },
+    defaultValues: createDefaultState,
   });
 
   const handleClose = useCallback(() => {

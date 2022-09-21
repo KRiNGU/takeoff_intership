@@ -1,5 +1,5 @@
 import React, { memo, useCallback } from 'react';
-import { Contact } from '../../../models/contacts';
+import { Contact } from '../models/contacts';
 import { styled } from '@mui/system';
 import { TableRow, TableCell, Button } from '@mui/material';
 

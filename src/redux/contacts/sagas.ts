@@ -2,13 +2,13 @@ import { AxiosResponse } from 'axios';
 import { call, put, takeLatest } from 'redux-saga/effects';
 import * as contactAPI from '../../api/contact';
 import * as contactSlice from './slice';
-import { Contact } from '../../models/contacts';
 import {
+  Contact,
   CreateContactWorkerProps,
-  UpdateContactWorkerProps,
-  GetContactsByOwnerIdWorkerProps,
   DeleteContactWorkerProps,
-} from './types';
+  GetContactsByOwnerIdWorkerProps,
+  UpdateContactWorkerProps,
+} from '../../models/contacts';
 
 function* deleteContactWorker({ payload: { id } }: DeleteContactWorkerProps) {
   try {

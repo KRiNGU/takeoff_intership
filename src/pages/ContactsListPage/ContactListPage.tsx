@@ -12,36 +12,32 @@ import {
 import AddIcon from '@mui/icons-material/Add';
 import { memo, useCallback, useEffect, useState } from 'react';
 import Background from '../../components/Background';
-import { Contact } from '../../models/contacts';
+import {
+  Contact,
+  updateDefaultState,
+  ICreateContactForm,
+  IUpdateContactForm,
+} from '../../models/contacts';
 import { User } from '../../models/user';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import CreateContactModal from './CreateContactModal';
-import { ICreateContactForm } from './CreateContactModal/CreateContactModal';
-import UpdateContactModal, {
-  IUpdateContactForm,
-} from './UpdateContactModal/UpdateContactModal';
-import ContactRow from './ContactRow';
+import UpdateContactModal from './UpdateContactModal/UpdateContactModal';
+import ContactRow from '../../components/ContactRow';
 import LogoutIcon from '@mui/icons-material/Logout';
 
 export const ContactListPage = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector<User>((state) => state.user.user);
   const contactList = useAppSelector<Contact[]>((state) => state.contacts);
+
   const [isCreateModalOpened, setIsCreateModalOpened] =
     useState<boolean>(false);
+
   const [isUpdateContactOpened, setIsUpdateModalOpened] =
     useState<boolean>(false);
 
   const [updateContactState, setUpdateContactState] =
-    useState<IUpdateContactForm>({
-      email: '',
-      name: '',
-      lastName: '',
-      patronymic: '',
-      phoneNumber: '',
-      telegram: '',
-      country: '',
-    });
+    useState<IUpdateContactForm>(updateDefaultState);
   const [updateContactId, setUpdateContactId] = useState<number>(0);
 
   useEffect(() => {

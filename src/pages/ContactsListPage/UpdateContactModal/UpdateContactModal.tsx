@@ -3,6 +3,10 @@ import { memo, useCallback, useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import CenteredPaper from '../../../components/CenteredPaper';
 import UpdateContactForm from '../../../components/forms/UpdateContactForm';
+import {
+  updateDefaultState,
+  IUpdateContactForm,
+} from '../../../models/contacts';
 
 export interface UpdateContactModalProps {
   open: boolean;
@@ -11,16 +15,6 @@ export interface UpdateContactModalProps {
   contact: IUpdateContactForm;
 }
 
-export type IUpdateContactForm = {
-  email: string;
-  name: string;
-  lastName: string;
-  patronymic?: string;
-  telegram?: string;
-  phoneNumber?: string;
-  country?: string;
-};
-
 const UpdateContactModal = ({
   open,
   onClose,
@@ -28,15 +22,7 @@ const UpdateContactModal = ({
   contact,
 }: UpdateContactModalProps) => {
   const methods = useForm<IUpdateContactForm>({
-    defaultValues: {
-      email: '',
-      name: '',
-      lastName: '',
-      patronymic: '',
-      telegram: '',
-      phoneNumber: '',
-      country: '',
-    },
+    defaultValues: updateDefaultState,
   });
 
   useEffect(() => {
