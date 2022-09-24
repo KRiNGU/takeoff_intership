@@ -2,39 +2,44 @@
   "users": [
     {
       "email": "user@mail.com",
-      "login": "alexandr",
+      "login": "login",
       "password": "password",
       "id": 1
-    },
-    {
-      "email": "alexandr@mail.com",
-      "login": "alexandr",
-      "password": "asdasdasd",
-      "id": 2
     }
   ],
   "contacts": [
     {
       "email": "contact1@mail.com",
-      "name": "Alexandr",
-      "lastName": "Alexandrius",
-      "patronymic": "Alexandr",
-      "telegram": "@alex",
-      "phoneNumber": "+7-999-888-22-22",
+      "name": "C1N",
+      "lastName": "C1LN",
+      "patronymic": "C1P",
+      "telegram": "@con1_tg",
+      "phoneNumber": "+7-888-888-88-88",
       "country": "Russia",
       "ownerId": 1,
       "id": 1
     },
     {
-      "email": "contact3@gmail.com",
-      "name": "Contact3",
-      "lastName": "Contact3LastName",
-      "patronymic": "Contact3Patronymic",
+      "email": "contact2@mail.com",
+      "name": "C2N",
+      "lastName": "C2LN",
+      "patronymic": "C2P",
+      "telegram": "@con2_tg",
       "phoneNumber": "+7-888-888-88-88",
-      "telegram": "@con3_tg",
       "country": "Russia",
       "ownerId": 1,
-      "id": 3
+      "id": 1
+    },
+    {
+      "email": "contact3@mail.com",
+      "name": "C3N",
+      "lastName": "C3LN",
+      "patronymic": "C3P",
+      "telegram": "@con3_tg",
+      "phoneNumber": "+7-888-888-88-88",
+      "country": "Russia",
+      "ownerId": 1,
+      "id": 1
     }
   ]
 }

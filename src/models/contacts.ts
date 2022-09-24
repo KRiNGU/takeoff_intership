@@ -61,9 +61,7 @@ export interface GetContactsByOwnerIdWorkerProps extends TypeWithPayload {
 }
 
 export interface CreateContactWorkerProps extends TypeWithPayload {
-  payload: {
-    contact: CreateContactProps;
-  };
+  payload: CreateContactProps;
 }
 
 export interface UpdateContactWorkerProps extends TypeWithPayload {
